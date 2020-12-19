@@ -13,7 +13,7 @@ The universe of the Game of Life is an infinite, two-dimensional orthogonal grid
 
 ## How do we create this in C ?
 We can represent the universe with a 2D array in which every entrie of the array represent a cell that is alive (1) or dead (0).  
-Let's say that __C__ is a cell, we must calculate __N__, the sum of lives in __C's__ neighourhood.
+Let's say that __C__ is a cell, we must calculate __N__, the sum of lives in __C__ neighourhood.
 | C | N                     | C' | Rule   |
 |---|-----------------------|----|--------|
 | 1 | 0,1                   | 0  | Rule 1 |
