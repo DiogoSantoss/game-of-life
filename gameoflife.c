@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 
-#define DELAY 50000000
+#define DELAY 30000000
 
 //symbol displayed when Cell is alive 
 char symbol = 254;
@@ -95,6 +96,17 @@ char** evolveMap(char** map){
     return new;
 }
 
+char** randomMap(char** map){
+    
+    for(int i = 0; i < x; i++){
+        for(int j = 0; j < y ; j++){
+            if(rand()%2==0)
+                map[i][j] = symbol;
+        }
+    }
+    return map;
+}
+
 /**
  * Clear terminal screen.
 */
@@ -111,7 +123,8 @@ void cleanScreen(){
 char** insertBlinker(char** map);
 char** insertGlider(char** map);
 char** insertToad(char** map);
-char** insertGosperGliderGun(map);
+char** insertGosperGliderGun(char** map);
+char** insertOpositeGosperGliderGun(char** map);
 
 /**
  * Display menu with different inicial states for the game.
@@ -119,7 +132,7 @@ char** insertGosperGliderGun(map);
  * @return map
 */
 char** menu(char** map){
-    
+
     int i;
     printf("***************************************************\n");
     printf("*                  Game of Life                   *\n");
@@ -128,8 +141,10 @@ char** menu(char** map){
     printf("    1) Insert Glider.\n");
     printf("    2) Insert Toad.\n");
     printf("    3) Insert Blinker.\n");
-    printf("    4) Insert Glider and Blinker colliding.\n");
-    printf("    5) Insert Gosper Glider Fun\n");
+    printf("    4) Insert Glider and Blinker colliding.(15x15)\n");
+    printf("    5) Insert Gosper Glider Fun.(40x10)\n");
+    printf("    6) Insert two Gosper Glider Fun.(40x40)\n");
+    printf("    7) Random Map. (May run slower)\n");
     printf("Option: ");
     scanf(" %d", &i);
 
@@ -146,10 +161,32 @@ char** menu(char** map){
             map = insertBlinker(map);
             break;
         case(4):
+            if(x < 14 || y < 14){
+                printf("Map not big enough for inicial state, run at least 15x15).\n");
+                sleep(5);
+                return map;
+            }
             map = insertGlider(insertBlinker(map));
             break;
         case(5):
+            if(x < 39 || y < 9){
+                printf("Map not big enough for inicial state, run at least 40x10).\n");
+                sleep(5);
+                return map;
+            }
             map = insertGosperGliderGun(map);
+            break;
+        case(6):
+            if(x < 39 || y < 39){
+                printf("Map not big enough for inicial state, run at least 40x40).\n");
+                sleep(5);
+                return map;
+            }
+            map = insertGosperGliderGun(insertOpositeGosperGliderGun(map));
+            break;
+        case(7):
+            map = randomMap(map);
+            break;
         default:
             break;
     }
@@ -159,15 +196,15 @@ char** menu(char** map){
 
 int main(int argc,char** argv){
 
-    x = atoi(argv[1]);  //largura
-    y = atoi(argv[2]);  //altura 
+    x = atoi(argv[1]); 
+    y = atoi(argv[2]);  
 
     char** map = createMap();
     map = menu(map);
 
     while(1){
-        showMap(map);
         map = evolveMap(map);
+        showMap(map);
         cleanScreen();
     }
 
@@ -251,6 +288,51 @@ char** insertGosperGliderGun(char** map){
     map[35][4] = symbol;
     map[36][3] = symbol;
     map[36][4] = symbol;
+
+    return map;
+}
+
+char** insertOpositeGosperGliderGun(char** map){
+
+    map[5][1] = symbol;
+    map[6][1] = symbol;
+    map[5][2] = symbol;
+    map[6][2] = symbol;
+
+    map[5][11] = symbol;
+    map[6][11] = symbol;
+    map[7][11] = symbol;
+    map[4][12] = symbol;
+    map[8][12] = symbol;
+    map[3][13] = symbol;
+    map[9][13] = symbol;
+    map[3][14] = symbol;
+    map[9][14] = symbol;
+    map[6][15] = symbol;
+    map[4][16] = symbol;
+    map[8][16] = symbol;
+    map[5][17] = symbol;
+    map[6][17] = symbol;
+    map[7][17] = symbol;
+    map[6][18] = symbol;
+
+    map[3][21] = symbol;
+    map[5][21] = symbol;
+    map[5][21] = symbol;
+    map[3][22] = symbol;
+    map[4][22] = symbol;
+    map[5][22] = symbol;
+    map[2][23] = symbol;
+    map[6][23] = symbol;
+    map[1][25] = symbol;
+    map[2][25] = symbol;
+    map[6][25] = symbol;
+    map[7][25] = symbol;
+
+    map[3][35] = symbol;
+    map[4][35] = symbol;
+    map[3][36] = symbol;
+    map[4][36] = symbol;
 
     return map;
 }
