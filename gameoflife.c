@@ -3,6 +3,8 @@
 #include <string.h>
 #include <unistd.h>
 
+#define DELAY 50000000
+
 //symbol displayed when Cell is alive 
 char symbol = 254;
 
@@ -15,12 +17,12 @@ int x,y;
 */
 void showMap(char** map){
 
-    for(int i = 0; i < y ; i++){
-        for(int k = 0; k < x; k++){
-            if(map[i][k] == symbol)
-                printf(" %c ",map[i][k]);
+    for(int i = 0; i < x ; i++){
+        for(int j = 0; j < y; j++){
+            if(map[i][j] == symbol)
+                printf(" %c ",map[i][j]);
             else
-                printf(" %c ",map[i][k]);
+                printf(" %c ",map[i][j]);
         }
         printf("\n");
     }
@@ -32,12 +34,12 @@ void showMap(char** map){
 */
 char** createMap(){
 
-    char** map = (char**) malloc(sizeof(char*)*y);
+    char** map = (char**) malloc(sizeof(char*)*x);
 
-    for(int i = 0; i < y; i++){
-        map[i] = (char*) malloc(sizeof(char)*x);
-        for(int k = 0; k < x; k++){
-            map[i][k] = ' ';
+    for(int i = 0; i < x; i++){
+        map[i] = (char*) malloc(sizeof(char)*y);
+        for(int j = 0; j < y; j++){
+            map[i][j] = ' ';
         }
     }
     return map;
@@ -49,7 +51,7 @@ char** createMap(){
 */
 void freeMap(char** map){
 
-    for(int i = 0; i < y; i++){
+    for(int i = 0; i < x; i++){
         free(map[i]);
     }
     free(map);
@@ -62,25 +64,30 @@ void freeMap(char** map){
 */
 char** evolveMap(char** map){
 
-    //Next iteration will be stored in new
+    //Next iteration will be stored here
     char** new = createMap();
 
-    for(int i = 0; i < y; i++){
-        for(int k = 0; k< x ; k++){
+    for(int i = 0; i < x; i++){
+        for(int j = 0; j < y ; j++){
+
             //Calculate the value of N from the adjacent positions
             int N = 0;
-            for(int yi = i-1; yi <= i+1; yi++){
-                for(int xk = k-1; xk <= k+1; xk++){
-                    if(yi < y && xk < x && yi >= 0 && xk >= 0){
-                        if(map[yi][xk] == symbol){
-                            if(yi != i || xk != k)
+            for(int xi = i-1; xi <= i+1; xi++){
+                for(int yj = j-1; yj <= j+1; yj++){
+
+                    //If it's inside the boundaries of the Map
+                    if(xi < x && yj < y && xi >= 0 && yj >= 0){
+                        if(map[xi][yj] == symbol){
+                            //Doesn't count itself
+                            if(xi != i || yj != j)
                                 N++;
                         }
                     }
                 }
             }
-            if(N == 3 || (N == 2 && map[i][k] == symbol))
-                new[i][k] = symbol;   
+            //Rules
+            if(N == 3 || (N == 2 && map[i][j] == symbol))
+                new[i][j] = symbol;   
         }
     }
 
@@ -90,9 +97,9 @@ char** evolveMap(char** map){
 
 char** insertBlinker(char** map){
 
-    map[10][13]=symbol;
-    map[11][13]=symbol;
-    map[12][13]=symbol;
+    map[13][10]=symbol;
+    map[13][11]=symbol;
+    map[13][12]=symbol;
 
     return map;
 }
@@ -100,10 +107,10 @@ char** insertBlinker(char** map){
 char** insertToad(char** map){
     
     map[1][1] = symbol;
-    map[1][2] = symbol;
-    map[1][3] = symbol;
-    map[2][0] = symbol;
     map[2][1] = symbol;
+    map[3][1] = symbol;
+    map[0][2] = symbol;
+    map[1][2] = symbol;
     map[2][2] = symbol;
 
     return map;
@@ -111,17 +118,107 @@ char** insertToad(char** map){
 
 char** insertGlider(char** map){
 
-    map[1][2] = symbol;
-    map[2][3] = symbol;
-    map[3][1] = symbol;
+    map[2][1] = symbol;
     map[3][2] = symbol;
+    map[1][3] = symbol;
+    map[2][3] = symbol;
     map[3][3] = symbol;
 
     return map;
 }
 
-void delay(int loops){
-    for(int i=0;i<loops;i++);
+char** insertGosperGliderGun(char** map){
+
+    map[1][5] = symbol;
+    map[1][6] = symbol;
+    map[2][5] = symbol;
+    map[2][6] = symbol;
+
+    map[11][5] = symbol;
+    map[11][6] = symbol;
+    map[11][7] = symbol;
+    map[12][4] = symbol;
+    map[12][8] = symbol;
+    map[13][3] = symbol;
+    map[13][9] = symbol;
+    map[14][3] = symbol;
+    map[14][9] = symbol;
+    map[15][6] = symbol;
+    map[16][4] = symbol;
+    map[16][8] = symbol;
+    map[17][5] = symbol;
+    map[17][6] = symbol;
+    map[17][7] = symbol;
+    map[18][6] = symbol;
+
+    map[21][3] = symbol;
+    map[21][4] = symbol;
+    map[21][5] = symbol;
+    map[22][3] = symbol;
+    map[22][4] = symbol;
+    map[22][5] = symbol;
+    map[23][2] = symbol;
+    map[23][6] = symbol;
+    map[25][1] = symbol;
+    map[25][2] = symbol;
+    map[25][6] = symbol;
+    map[25][7] = symbol;
+
+    map[35][3] = symbol;
+    map[35][4] = symbol;
+    map[36][3] = symbol;
+    map[36][4] = symbol;
+
+    return map;
+}
+
+/**
+ * Clear terminal screen.
+*/
+void cleanScreen(){
+    for(int i=0;i<DELAY;i++);
+    system("clear");
+}
+
+/**
+ * Display menu with different inicial states for the game.
+ * @param map
+ * @return map
+*/
+char** menu(char** map){
+    int i;
+    
+    printf("***************************************************\n");
+    printf("*                  Game of Life                   *\n");
+    printf("***************************************************\n");
+    printf("    1) Insert Glider.\n");
+    printf("    2) Insert Toad.\n");
+    printf("    3) Insert Blinker.\n");
+    printf("    4) Insert Glider and Blinker colliding.\n");
+    printf("    5) Insert Gosper Glider Fun\n");
+    printf("Option: ");
+    scanf(" %d", &i);
+
+    switch(i){
+        case(1):
+            map = insertGlider(map);
+            break;
+        case(2):
+            map = insertToad(map);
+            break;
+        case(3):
+            map = insertBlinker(map);
+            break;
+        case(4):
+            map = insertGlider(insertBlinker(map));
+            break;
+        case(5):
+            map = insertGosperGliderGun(map);
+        default:
+            break;
+    }
+    cleanScreen();
+    return map;
 }
 
 int main(int argc,char** argv){
@@ -131,15 +228,14 @@ int main(int argc,char** argv){
     y = atoi(argv[2]);  //altura 
 
     char** map = createMap();
-    map = insertGlider(map);
-    map = insertBlinker(map);
+    map = menu(map);
 
     while(1){
         showMap(map);
         map = evolveMap(map);
-        delay(50000000);
-        system("clear");
+        cleanScreen();
     }
 
+    freeMap(map);
     return 0;
 }
