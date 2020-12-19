@@ -3,9 +3,17 @@
 #include <string.h>
 #include <unistd.h>
 
+//symbol displayed when Cell is alive 
 char symbol = 254;
 
-void showMap(int x, int y, char** map){
+//dimensions of the Map
+int x,y;
+
+/**
+ * Shows the Map.
+ * @param map
+*/
+void showMap(char** map){
 
     for(int i = 0; i < y ; i++){
         for(int k = 0; k < x; k++){
@@ -18,7 +26,11 @@ void showMap(int x, int y, char** map){
     }
 }
 
-char** createMap(int x,int y){
+/**
+ * Allocates memory and inicializes the Map.
+ * @return map
+*/
+char** createMap(){
 
     char** map = (char**) malloc(sizeof(char*)*y);
 
@@ -31,7 +43,11 @@ char** createMap(int x,int y){
     return map;
 }
 
-void freeMap(int x, int y, char** map){
+/**
+ * Frees the memory associated with a Map.
+ * @param map
+*/
+void freeMap(char** map){
 
     for(int i = 0; i < y; i++){
         free(map[i]);
@@ -39,14 +55,20 @@ void freeMap(int x, int y, char** map){
     free(map);
 }
 
-char** evolveMap(int x, int y, char** map){
+/**
+ * Generates the next iteration of a given Map.
+ * @param map
+ * @return map
+*/
+char** evolveMap(char** map){
 
-    int N;
-    char** new = createMap(x,y);
+    //Next iteration will be stored in new
+    char** new = createMap();
 
     for(int i = 0; i < y; i++){
         for(int k = 0; k< x ; k++){
-            N = 0;
+            //Calculate the value of N from the adjacent positions
+            int N = 0;
             for(int yi = i-1; yi <= i+1; yi++){
                 for(int xk = k-1; xk <= k+1; xk++){
                     if(yi < y && xk < x && yi >= 0 && xk >= 0){
@@ -62,14 +84,8 @@ char** evolveMap(int x, int y, char** map){
         }
     }
 
-    //Updates map based on new values
-    for(int i = 0; i < y; i++){
-        for(int k = 0; k < x ; k++){
-            map[i][k] = new[i][k];
-        }
-    }
-    freeMap(x,y,new);
-    return map;
+    freeMap(map);
+    return new;
 }
 
 char** insertBlinker(char** map){
@@ -111,17 +127,16 @@ void delay(int loops){
 int main(int argc,char** argv){
 
     system("clear");
-    int x = atoi(argv[1]);  //largura
-    int y = atoi(argv[2]);  //altura 
+    x = atoi(argv[1]);  //largura
+    y = atoi(argv[2]);  //altura 
 
-    char** map = createMap(x,y);
+    char** map = createMap();
     map = insertGlider(map);
     map = insertBlinker(map);
 
-
     while(1){
-        showMap(x,y,map);
-        map = evolveMap(x,y,map);
+        showMap(map);
+        map = evolveMap(map);
         delay(50000000);
         system("clear");
     }
