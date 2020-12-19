@@ -95,6 +95,89 @@ char** evolveMap(char** map){
     return new;
 }
 
+/**
+ * Clear terminal screen.
+*/
+void cleanScreen(){
+    for(int i=0;i<DELAY;i++);
+    system("clear");
+}
+
+/**
+ * Figures given as inicial conditions.
+ * @param map
+ * @return map
+*/
+char** insertBlinker(char** map);
+char** insertGlider(char** map);
+char** insertToad(char** map);
+char** insertGosperGliderGun(map);
+
+/**
+ * Display menu with different inicial states for the game.
+ * @param map
+ * @return map
+*/
+char** menu(char** map){
+    
+    int i;
+    printf("***************************************************\n");
+    printf("*                  Game of Life                   *\n");
+    printf("***************************************************\n");
+    printf("    0) Blank Map.\n");
+    printf("    1) Insert Glider.\n");
+    printf("    2) Insert Toad.\n");
+    printf("    3) Insert Blinker.\n");
+    printf("    4) Insert Glider and Blinker colliding.\n");
+    printf("    5) Insert Gosper Glider Fun\n");
+    printf("Option: ");
+    scanf(" %d", &i);
+
+    switch(i){
+        case(0):
+            break;
+        case(1):
+            map = insertGlider(map);
+            break;
+        case(2):
+            map = insertToad(map);
+            break;
+        case(3):
+            map = insertBlinker(map);
+            break;
+        case(4):
+            map = insertGlider(insertBlinker(map));
+            break;
+        case(5):
+            map = insertGosperGliderGun(map);
+        default:
+            break;
+    }
+    cleanScreen();
+    return map;
+}
+
+int main(int argc,char** argv){
+
+    x = atoi(argv[1]);  //largura
+    y = atoi(argv[2]);  //altura 
+
+    char** map = createMap();
+    map = menu(map);
+
+    while(1){
+        showMap(map);
+        map = evolveMap(map);
+        cleanScreen();
+    }
+
+    freeMap(map);
+    return 0;
+}
+
+
+/*------------------------------------ FIGURES ------------------------------------*/
+
 char** insertBlinker(char** map){
 
     map[13][10]=symbol;
@@ -170,72 +253,4 @@ char** insertGosperGliderGun(char** map){
     map[36][4] = symbol;
 
     return map;
-}
-
-/**
- * Clear terminal screen.
-*/
-void cleanScreen(){
-    for(int i=0;i<DELAY;i++);
-    system("clear");
-}
-
-/**
- * Display menu with different inicial states for the game.
- * @param map
- * @return map
-*/
-char** menu(char** map){
-    int i;
-    
-    printf("***************************************************\n");
-    printf("*                  Game of Life                   *\n");
-    printf("***************************************************\n");
-    printf("    1) Insert Glider.\n");
-    printf("    2) Insert Toad.\n");
-    printf("    3) Insert Blinker.\n");
-    printf("    4) Insert Glider and Blinker colliding.\n");
-    printf("    5) Insert Gosper Glider Fun\n");
-    printf("Option: ");
-    scanf(" %d", &i);
-
-    switch(i){
-        case(1):
-            map = insertGlider(map);
-            break;
-        case(2):
-            map = insertToad(map);
-            break;
-        case(3):
-            map = insertBlinker(map);
-            break;
-        case(4):
-            map = insertGlider(insertBlinker(map));
-            break;
-        case(5):
-            map = insertGosperGliderGun(map);
-        default:
-            break;
-    }
-    cleanScreen();
-    return map;
-}
-
-int main(int argc,char** argv){
-
-    system("clear");
-    x = atoi(argv[1]);  //largura
-    y = atoi(argv[2]);  //altura 
-
-    char** map = createMap();
-    map = menu(map);
-
-    while(1){
-        showMap(map);
-        map = evolveMap(map);
-        cleanScreen();
-    }
-
-    freeMap(map);
-    return 0;
 }
