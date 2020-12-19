@@ -37,3 +37,4 @@ then
 ```
 Since the simulation runs inside the terminal it's advised to scale down the size to have a better experience.  
 Some inicial states have a minimum map size required.
+You can speed-up or slow-down the simulacion by adjusting the *DELAY*
