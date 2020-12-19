@@ -35,3 +35,5 @@ then
 ```
 ./gameoflife width height
 ```
+Since the simulation runs inside the terminal it's advised to scale down the size to have a better experience.  
+Some inicial states have a minimum map size required.
