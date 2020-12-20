@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define DELAY 30000000
+#define DELAY 90000000
 
 //symbol displayed when Cell is alive 
 char symbol = 254;
@@ -125,6 +125,7 @@ char** insertGlider(char** map);
 char** insertToad(char** map);
 char** insertGosperGliderGun(char** map);
 char** insertOpositeGosperGliderGun(char** map);
+char** insertFirstPattern(char** map);
 
 /**
  * Display menu with different inicial states for the game.
@@ -145,6 +146,7 @@ char** menu(char** map){
     printf("    5) Insert Gosper Glider Fun.(40x10)\n");
     printf("    6) Insert two Gosper Glider Fun.(40x40)\n");
     printf("    7) Random Map. (May run slower)\n");
+    printf("    8) Insert first pattern.(50x50)\n");
     printf("Option: ");
     scanf(" %d", &i);
 
@@ -186,6 +188,14 @@ char** menu(char** map){
             break;
         case(7):
             map = randomMap(map);
+            break;
+        case(8):
+            if(x < 49 || y < 48){
+                printf("Map not big enough for inicial state, run at least 50x50).\n");
+                sleep(5);
+                return map;
+            }
+            map = insertFirstPattern(map);
             break;
         default:
             break;
@@ -333,6 +343,25 @@ char** insertOpositeGosperGliderGun(char** map){
     map[4][35] = symbol;
     map[3][36] = symbol;
     map[4][36] = symbol;
+
+    return map;
+}
+
+char** insertFirstPattern(char** map){
+    
+    map[36][41] = symbol;
+
+    map[38][41] = symbol;
+    map[38][40] = symbol;
+
+    map[40][37] = symbol;
+    map[40][38] = symbol;
+    map[40][39] = symbol;
+
+    map[42][36] = symbol;
+    map[42][37] = symbol;
+    map[42][38] = symbol;
+    map[43][37] = symbol;
 
     return map;
 }
