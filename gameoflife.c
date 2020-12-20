@@ -96,6 +96,11 @@ char** evolveMap(char** map){
     return new;
 }
 
+/**
+ * Generates randoms values for each entrie of the Map.
+ * @param map
+ * @return map
+*/
 char** randomMap(char** map){
     
     for(int i = 0; i < x; i++){
