@@ -13,7 +13,8 @@ The universe of the Game of Life is an infinite, two-dimensional orthogonal grid
 
 ## How do we create this in C ?
 We can represent the universe with a 2D array in which every entrie of the array represent a cell that is alive (1) or dead (0).  
-Let's say that __C__ is a cell, we must calculate __N__, the sum of lives in __C__ neighourhood.
+Let's say that __C__ is a cell, calculated __N__, the number of lives in the neighborhood is possible to infer __C'__.  
+
 | C | N                     | C' | Rule   |
 |---|-----------------------|----|--------|
 | 1 | 0,1                   | 0  | Rule 1 |
@@ -22,9 +23,7 @@ Let's say that __C__ is a cell, we must calculate __N__, the sum of lives in __C
 | 0 | 0,1,2,4,5,6,7,8       | 0  | Rule 4 |
 | 0 | 3                     | 1  | Rule 4 |
 
-This rules will result in movement, a cell may go beyond the boundary of the array.  
-We can solve this by assuming either that cells outside of boundary are dead or boundaries are connected.
-
+Following this method it's possible to define the next iteration of the array and so on.  
 
 ## How to compile
 Run 
@@ -36,5 +35,5 @@ then
 ./gameoflife width height
 ```
 Since the simulation runs inside the terminal it's advised to scale down the size to have a better experience.  
+You can speed-up or slow-down the simulacion by adjusting the *DELAY*.  
 Some inicial states have a minimum map size required.
-You can speed-up or slow-down the simulacion by adjusting the *DELAY*
