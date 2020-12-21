@@ -131,6 +131,8 @@ char** insertToad(char** map);
 char** insertGosperGliderGun(char** map);
 char** insertOpositeGosperGliderGun(char** map);
 char** insertFirstPattern(char** map);
+char** insertSecondPattern(char** map);
+char** insertBoat(char** map);
 
 /**
  * Display menu with different inicial states for the game.
@@ -152,6 +154,8 @@ char** menu(char** map){
     printf("    6) Insert two Gosper Glider Fun.(40x40)\n");
     printf("    7) Random Map. (May run slower)\n");
     printf("    8) Insert first pattern.(50x50)\n");
+    printf("    9) Insert second pattern.(10x10)\n");
+    printf("    10) Insert boat.\n");
     printf("Option: ");
     scanf(" %d", &i);
 
@@ -195,12 +199,23 @@ char** menu(char** map){
             map = randomMap(map);
             break;
         case(8):
-            if(x < 49 || y < 48){
+            if(x < 49 || y < 49){
                 printf("Map not big enough for inicial state, run at least 50x50).\n");
                 sleep(5);
                 return map;
             }
             map = insertFirstPattern(map);
+            break;
+        case(9):
+            if(x < 9 || y < 9){
+                printf("Map not big enough for inicial state, run at least 10x10).\n");
+                sleep(5);
+                return map;
+            }
+            map = insertSecondPattern(map);
+            break;
+        case(10):
+            map = insertSecondPattern(map);
             break;
         default:
             break;
@@ -353,20 +368,67 @@ char** insertOpositeGosperGliderGun(char** map){
 }
 
 char** insertFirstPattern(char** map){
+
+    int xCenter = x/2;
+    int yCenter = y/2;
     
-    map[36][41] = symbol;
+    map[xCenter+1][yCenter+6] = symbol;
 
-    map[38][41] = symbol;
-    map[38][40] = symbol;
+    map[xCenter+3][yCenter+6] = symbol;
+    map[xCenter+3][yCenter+5] = symbol;
 
-    map[40][37] = symbol;
-    map[40][38] = symbol;
-    map[40][39] = symbol;
+    map[xCenter+5][yCenter+2] = symbol;
+    map[xCenter+5][yCenter+3] = symbol;
+    map[xCenter+5][yCenter+4] = symbol;
 
-    map[42][36] = symbol;
-    map[42][37] = symbol;
-    map[42][38] = symbol;
-    map[43][37] = symbol;
+    map[xCenter+7][yCenter+1] = symbol;
+    map[xCenter+7][yCenter+2] = symbol;
+    map[xCenter+7][yCenter+3] = symbol;
+    map[xCenter+8][yCenter+2] = symbol;
+
+    return map;
+}
+
+char** insertSecondPattern(char** map){
+
+    int xCenter = x/2;
+    int yCenter = y/2;
+
+    map[xCenter+1][yCenter+1] = symbol;
+    map[xCenter+1][yCenter+2] = symbol;
+    map[xCenter+2][yCenter+1] = symbol;
+    map[xCenter+3][yCenter+1] = symbol;
+
+    map[xCenter+4][yCenter+1] = symbol;
+
+    map[xCenter+1][yCenter+5] = symbol;
+
+    map[xCenter+2][yCenter+4] = symbol;
+    map[xCenter+3][yCenter+4] = symbol;
+    map[xCenter+3][yCenter+5] = symbol;
+    
+    map[xCenter+4][yCenter+3] = symbol;
+    map[xCenter+5][yCenter+3] = symbol;
+    map[xCenter+5][yCenter+4] = symbol;
+    map[xCenter+5][yCenter+5] = symbol;
+
+    return map;
+}
+
+char** insertBoat(char** map){
+
+    int xCenter = x/2;
+    int yCenter = y/2;
+
+    map[xCenter+1][yCenter] = symbol;
+    map[xCenter+1][yCenter] = symbol;
+    map[xCenter][yCenter] = symbol;
+    map[xCenter+1][yCenter+1] = symbol;
+    map[xCenter][yCenter+1] = symbol;
+    map[xCenter+1][yCenter+1] = symbol;
+    map[xCenter][yCenter+2] = symbol;
+    map[xCenter+1][yCenter+2] = symbol;
+    map[xCenter][yCenter+2] = symbol;    
 
     return map;
 }
