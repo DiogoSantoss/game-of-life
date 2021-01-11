@@ -11,8 +11,8 @@ The universe of the Game of Life is an infinite, two-dimensional orthogonal grid
 - Any live cell with more than three live neighbours dies, as if by overpopulation.
 - Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-## How do we create this in C ?
-We can represent the universe with a 2D array in which every entrie of the array represent a cell that is alive (1) or dead (0).  
+## How do we represent this ?
+We can represent the universe with a 2D array in which every entrie of the array is a cell that is alive (1) or dead (0).  
 Let's say that __C__ is a cell, calculated __N__, the number of lives in the neighborhood is possible to infer __C'__.  
 
 | C | N                     | C' | Rule   |
