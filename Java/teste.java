@@ -19,13 +19,20 @@ public class teste{
             frame.pack();
             frame.setVisible(true);
 
-            /*
-            for(int i = 0; i < 500; i++){
-                  for(int k = 0; k < 500 ; k++){
-                        screen.drawPixel(i,k,new Color(new Random().nextInt(0xFFFFFF)));
+            Map map = new Map(400,400);
+            int x = map.getWidth();
+            int y = map.getHeight();
+
+            //bug somewhere
+
+            for(; x < 500; x++){
+                  for(; y < 500 ; y++){
+                        if(map.getCell(x, y).getState() == 0)
+                              screen.drawPixel(x,y,new Color(020000));
+                        else
+                              screen.drawPixel(x,y,new Color(222222));
                   }
             }
             screen.reset();
-            */
       }
 }

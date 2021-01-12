@@ -1,6 +1,16 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ *  o -> cell
+ *  x -> neighborhoods
+ * 
+ *  x x x
+ *  x o x
+ *  x x x
+ * 
+ */
+
 public class Cell {
 
     //TODO encontrar neighborgood
@@ -22,6 +32,10 @@ public class Cell {
 
     public Cell getNeighborhood(int position){
         return this.neighborhood.get(position);
+    }
+
+    public void setNeighborhood(List<Cell> neighborhood){
+        this.neighborhood = neighborhood;
     }
 
     public int getNeighborhoodValue(){
