@@ -2,6 +2,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Cell {
+
+    //TODO encontrar neighborgood
     
     private int state;
     private List<Cell> neighborhood = new ArrayList<Cell>();
@@ -42,5 +44,6 @@ public class Cell {
                 if(!(N==2 || N==3))
                     this.setState(0);          
         }
+
     }
 }

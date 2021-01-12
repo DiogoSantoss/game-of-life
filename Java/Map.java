@@ -3,16 +3,34 @@ import java.util.ArrayList;
 
 public class Map {
 
-    //FIXME
-
-    private List<List<Cell>> map = new ArrayList<List<Cell>>();
+    private Cell[][] map;
+    private int width;
+    private int height;
 
     public Map(int width,int height){
-        for(int i = 0; i < width; i++){
-            this.map.add(new ArrayList<Cell>());
-            for(int j = 0; j < height; j++){
-                this.map.get(i).add(new Cell(0));
+
+        this.width = width;
+        this.height = height;
+
+        this.map = new Cell[width][height];
+
+        for(int x = 0; x<width; x++){
+            for(int y = 0; y<height; y++){
+                this.map[x][y] = new Cell(0);
             }
         }
-    
+    }
+
+    public void evolveMap(){
+        Cell[][] newMap = new Cell[this.width][this.height];
+
+        for(int x = 0; x<width; x++){
+            for(int y = 0; y<height; y++){
+                this.map[x][y].updateCell();
+                newMap[x][y] = this.map[x][y];
+            }
+        }
+
+        this.map = newMap;
+    }
 }
