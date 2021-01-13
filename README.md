@@ -25,7 +25,7 @@ Let's say that __C__ is a cell, calculated __N__, the number of lives in the nei
 
 Following this method it's possible to define the next iteration of the array and so on.  
 
-## How to compile
+## How to compile (C)
 Run 
 ```
 make
@@ -37,3 +37,6 @@ then
 Since the simulation runs inside the terminal it's advised to scale down the size to have a better experience.  
 You can speed-up or slow-down the simulacion by adjusting the *DELAY*.  
 Some inicial states have a minimum map size required.
+
+## How to compile (Java)
+TODO
