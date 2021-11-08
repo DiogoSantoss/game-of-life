@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#define DELAY 90000000
 
+#define DELAY 90000000
 //symbol displayed when Cell is alive 
 char symbol = 254;
 
